@@ -1981,7 +1981,7 @@
         <volumeref ref="shield_DS_beampipe_logic"/>
         <positionref ref="shield_DS_beampipe_center"/>
       </physvol>
-
+<!--
       <physvol name="DScoil_0">
         <volumeref ref="logicDScoil_0"/>
         <positionref ref="CENTER"/>
@@ -2054,6 +2054,15 @@
         <positionref ref="CENTER"/>
         <rotationref ref="RotateZ_6"/>
       </physvol>
+-->
+      
+      <physvol name="DScoil">
+        <file name="hybrid/hybridToroid.gdml"/>
+        <position name="pos_hybridToroid" x="0" y="0" z="13370.3653846-DOFFSET"/>
+      </physvol>
+
+
+
 
       <!--Removing col-3 -->
       <!--
