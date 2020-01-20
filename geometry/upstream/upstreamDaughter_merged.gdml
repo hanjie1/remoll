@@ -116,15 +116,7 @@
     <constant name="posCOLL2TRAP_Z" value ="5925-UOFFSET+COLL2_THICK/2.0+0.5"/>
     <position name="posCOLL2TRAP" unit="mm" x="0" y="0" z="posCOLL2TRAP_Z"/> 
 
-    <constant name="COIL_ANGLE" value="0.14754"/>
-    <constant name="COIL_STRAIGHT_L" value="1840.952"/>
-    <constant name="COIL_STRAIGHT_H" value="57.341"/>
-    <constant name="COIL_ARC_R" value="33.135"/>
-    <constant name="XS_W1" value="26.508"/>
-    <constant name="XS_W2" value="13.254"/>
-    <constant name="XS_H" value="46.389"/>
-    <constant name="INNER_R" value="30.66321"/>
-    <constant name="INCOILRADIUS" value="INNER_R+XS_H/2+tan(COIL_ANGLE*DEGRAD)*COIL_STRAIGHT_L/2"/>
+    
 
     <!--
        Shielding collimators dimensions
@@ -150,50 +142,7 @@
     <constant name="USShield1_length" value="1000 + USShield1_extension"/>
     <constant name="USShield2_length" value="1000 + USShield2_extension + boxUSShieldColl2_gapOffset"/>
 
-    <!-- Neutron Poly Shielding -->
-    <!-- PolyShield1 will be outside shielding blocks 2 and 3 -->
-    <constant name="USPolyShield1_front_thickness" value="200"/>
-    <constant name="USPolyShield1_back_thickness" value="394 + 400"/>
-    <constant name="USPolyShield1_side_thickness" value="400 + 400"/>
-    <constant name="USPolyShield1_top_thickness" value="400 + 400"/>
-    <constant name="USPolyShield1_bottom_thickness" value="400 + 400"/>
-    <constant name="USPolyShield1_length" value="USShield1_length + USShield2_length + 1 + USPolyShield1_front_thickness + USPolyShield1_back_thickness + 100"/>
-    <constant name="USPolyShield1_width" value="USShield2_width + 1 + 2*USPolyShield1_side_thickness"/>
-    <constant name="USPolyShield1_height" value="USShield2_height + 1 + USPolyShield1_top_thickness + USPolyShield1_bottom_thickness"/>
-    <constant name="boxPolyShield1_beam_bore" value="boxUSShieldColl2_inner_rmax + 15"/>
-    <!--offeset when no bottom shield (USPolyShield1_top_thickness + USPolyShield1_bottom_thickness)/2 -->
-    <constant name="USPolyShield1_y_offset" value="(USPolyShield1_top_thickness - USPolyShield1_bottom_thickness)/2"/>
-    <constant name="USPolyShield1_z_offset" value="(USPolyShield1_back_thickness - USPolyShield1_front_thickness)/2"/>
-    <position name="boxUSPolyShield1_trans1" unit="mm" x="0" y="-1*USPolyShield1_top_thickness/2 + USPolyShield1_bottom_thickness/2" z="-1*USPolyShield1_back_thickness/2 + USPolyShield1_front_thickness/2"/>
-    <position name="boxUSPolyShield1_trans2" unit="mm" x="0" y="-1*USPolyShield1_y_offset" z="0"/>
-    <position name="boxUSPolyShield1_center" unit="mm" x="0" y="USPolyShield1_y_offset" z="5865-UOFFSET-(USShield1_extension-USShield2_extension)/2+USPolyShield1_z_offset"/>
-
-    <constant name="X_ARC" value="COIL_STRAIGHT_L/2"/>
-    <constant name="Y1_ARC" value="-INCOILRADIUS-(COIL_ARC_R+XS_H/2)"/>
-    <constant name="Y2_ARC" value="-INCOILRADIUS-(COIL_ARC_R+XS_H/2+COIL_STRAIGHT_H)"/>
-    <position name="COIL_ARC_1" unit="mm" x="0" y="-X_ARC*cos(COIL_ANGLE*DEGRAD)-Y1_ARC*sin(COIL_ANGLE*DEGRAD)" 
-                                                z="-X_ARC*sin(COIL_ANGLE*DEGRAD)+Y1_ARC*cos(COIL_ANGLE*DEGRAD)"/>
-    <position name="COIL_ARC_2" unit="mm" x="0" y="-X_ARC*cos(COIL_ANGLE*DEGRAD)-Y2_ARC*sin(COIL_ANGLE*DEGRAD)" 
-                                                z="-X_ARC*sin(COIL_ANGLE*DEGRAD)+Y2_ARC*cos(COIL_ANGLE*DEGRAD)"/>
-    <position name="COIL_ARC_3" unit="mm" x="0" y="X_ARC*cos(COIL_ANGLE*DEGRAD)-Y2_ARC*sin(COIL_ANGLE*DEGRAD)" 
-                                                z="X_ARC*sin(COIL_ANGLE*DEGRAD)+Y2_ARC*cos(COIL_ANGLE*DEGRAD)"/>
-    <position name="COIL_ARC_4" unit="mm" x="0" y="X_ARC*cos(COIL_ANGLE*DEGRAD)-Y1_ARC*sin(COIL_ANGLE*DEGRAD)" 
-                                                z="X_ARC*sin(COIL_ANGLE*DEGRAD)+Y1_ARC*cos(COIL_ANGLE*DEGRAD)"/>
-
-    <constant name="X1_STRAIGHT" value="0"/>
-    <constant name="X2_STRAIGHT" value="(COIL_STRAIGHT_L+XS_H)/2+COIL_ARC_R"/>
-    <constant name="Y1_STRAIGHT" value="-INCOILRADIUS"/>
-    <constant name="Y2_STRAIGHT" value="-INCOILRADIUS-(COIL_ARC_R+(XS_H+COIL_STRAIGHT_H)/2)"/>
-    <constant name="Y3_STRAIGHT" value="-INCOILRADIUS-(2*COIL_ARC_R+XS_H+COIL_STRAIGHT_H)"/>
-    <position name="COIL_STRAIGHT_1" unit="mm" x="0" y="X1_STRAIGHT*cos(COIL_ANGLE*DEGRAD)-Y1_STRAIGHT*sin(COIL_ANGLE*DEGRAD)" 
-                                                     z="X1_STRAIGHT*sin(COIL_ANGLE*DEGRAD)+Y1_STRAIGHT*cos(COIL_ANGLE*DEGRAD)"/>
-    <position name="COIL_STRAIGHT_2" unit="mm" x="0" y="-X2_STRAIGHT*cos(COIL_ANGLE*DEGRAD)-Y2_STRAIGHT*sin(COIL_ANGLE*DEGRAD)" 
-                                                     z="-X2_STRAIGHT*sin(COIL_ANGLE*DEGRAD)+Y2_STRAIGHT*cos(COIL_ANGLE*DEGRAD)"/>
-    <position name="COIL_STRAIGHT_3" unit="mm" x="0" y="X1_STRAIGHT*cos(COIL_ANGLE*DEGRAD)-Y3_STRAIGHT*sin(COIL_ANGLE*DEGRAD)" 
-                                                     z="X1_STRAIGHT*sin(COIL_ANGLE*DEGRAD)+Y3_STRAIGHT*cos(COIL_ANGLE*DEGRAD)"/>
-    <position name="COIL_STRAIGHT_4" unit="mm" x="0" y="X2_STRAIGHT*cos(COIL_ANGLE*DEGRAD)-Y2_STRAIGHT*sin(COIL_ANGLE*DEGRAD)" 
-                                                     z="X2_STRAIGHT*sin(COIL_ANGLE*DEGRAD)+Y2_STRAIGHT*cos(COIL_ANGLE*DEGRAD)"/>
-
+   
     <!--
        To have optimized US mother volume use these numbers
       -->
@@ -221,36 +170,6 @@
     <position name="USmothersubtract_center_2" unit="mm" x="0" y="0" z="USBoxmother_length/2 - USBoxmothersubtract_length/2"/>
     <position name="USmotherunion_center_1" unit="mm" x="0" y="0" z="-1*USBoxmother_length/2 - USBoxmotherunion_length/2"/>
 
-    <!--beampipe 1, 2, and 3 were my initial design and it is not in use because this design is not in the CAD from Tyler
-      I will add CAD based beam pipe separately but keep the old design for the record Rakitha Tue Nov 24 11:29:13 EST 2015 -->
-    <position name="beampipe_union_1_centere" unit="mm" x="0" y="0" z="-1*USBoxmother_length/2 - tubeBeampipeMother_1_union_length/2 + 0.1 + USBoxmother_extensionUS/2 - USBoxmother_extensionDS/2"/> <!-- upstream beampipe hole subtraction (region target)-->
-    <position name="beampipe_union_2_center" unit="mm" x="0" y="0" z="USBoxmother_length/2 - USBoxmothersubtract_length + tubeBeampipeMother_2_union_length/2"/> <!-- downstream beampipe hole substraction (region hybrid shield)-->
-    <constant name="beampipe_1_part1_length" value="100"/>
-    <constant name="beampipe_1_thickness" value="10"/>
-    <constant name="beampipe_1_part1_rmax" value="190"/>
-    <constant name="beampipe_1_part1_rmin" value="beampipe_1_part1_rmax - beampipe_1_thickness"/>
-    <constant name="beampipe_1_part2_length" value="3000"/>
-    <constant name="beampipe_1_part2_rmax" value="99.9"/>
-    <constant name="beampipe_1_part2_rmin" value="beampipe_1_part2_rmax - beampipe_1_thickness"/>
-    <constant name="beampipe_1_length" value="beampipe_1_part1_length + beampipe_1_part2_length"/>
-    <position name="beampipe_1_center" unit="mm" x="0" y="0" z="-1*USBoxmother_length/2 - tubeBeampipeMother_1_union_length + 1"/>
-
-    <constant name="beampipe_2_part1_length" value="2000 + tubeBeampipeMother_2_union_length - 0.1"/>
-    <constant name="beampipe_2_thickness" value="10"/>
-    <constant name="beampipe_2_part1_rmax" value="334.0"/>
-    <constant name="beampipe_2_part1_rmin" value="beampipe_2_part1_rmax - beampipe_2_thickness"/>
-    <position name="beampipe_2_center" unit="mm" x="0" y="0" z="posCOLL2TRAP_Z"/>
-
-    <constant name="beampipe_3_part1_length" value="2300"/>
-    <constant name="beampipe_3_thickness" value="5"/>
-    <constant name="beampipe_3_part1_rmax" value="25.9"/>
-    <constant name="beampipe_3_part1_rmin" value="beampipe_3_part1_rmax - beampipe_3_thickness"/>
-    <constant name="beampipe_3_part2_length" value="1750"/>
-    <constant name="beampipe_3_part2_rmax" value="37.9"/>
-    <constant name="beampipe_3_part2_rmin" value="beampipe_3_part2_rmax - beampipe_3_thickness"/>
-    <constant name="beampipe_3_length" value="beampipe_3_part1_length + beampipe_3_part2_length"/>
-    <position name="beampipe_3_center" unit="mm" x="0" y="0" z="COLL1_z + COLL1_THICK/2 + 1"/>
-
     <!--CAD based shielding beampipe for col-1 to end of US magnet -->
     
     <constant name="shield_US_beampipe_length" value="1945"/>
@@ -268,28 +187,6 @@
     <position name="posCOLL2_det" unit="mm" x="0" y="0" z="posCOLL2_det_z"/> <!-- this detector is directly after the acceptance defining collimator -->
     
 
-    <!-- Neutron Shielding -->
-    <!-- Insert constant and position parameters for neutron shielding here -->   
-
-    <!--Rotation about x axis -->
-    <rotation name="scRot_1" unit="deg" x="90" y="0" z="0"/> 
-
-    <rotation name="RotateIN"   x="0+COIL_ANGLE"  y="0" z="0" unit="deg"/>
-    <rotation name="RotateDS"    x="270+COIL_ANGLE"  y="0" z="0" unit="deg"/>
-    <rotation name="RotateOUT"   x="0-COIL_ANGLE"  y="180" z="0" unit="deg"/>
-    <rotation name="RotateUS"    x="90+COIL_ANGLE" y="0"   z="0" unit="deg"/>
-    <rotation name="RotateDSIN"  x="0" y="90" z="0" unit="deg"/>
-    <rotation name="RotateDSOUT"  x="0" y="270" z="0" unit="deg"/>
-    <rotation name="RotateUSOUT"  x="180" y="270" z="0" unit="deg"/>
-    <rotation name="RotateUSIN"  x="180" y="90" z="0" unit="deg"/>
-
-    <rotation name="RotateZ_0" x="90" y="SEPTANT*0.+90" z="0" unit="deg"/>
-    <rotation name="RotateZ_1" x="90" y="SEPTANT*1.+90" z="0" unit="deg"/>
-    <rotation name="RotateZ_2" x="90" y="SEPTANT*2.+90" z="0" unit="deg"/>
-    <rotation name="RotateZ_3" x="90" y="SEPTANT*3.+90" z="0" unit="deg"/>
-    <rotation name="RotateZ_4" x="90" y="SEPTANT*4.+90" z="0" unit="deg"/>
-    <rotation name="RotateZ_5" x="90" y="SEPTANT*5.+90" z="0" unit="deg"/>
-    <rotation name="RotateZ_6" x="90" y="SEPTANT*6.+90" z="0" unit="deg"/>
     <rotation name="identity"/>
 
 </define> 
@@ -297,16 +194,6 @@
 &materials;
 
 <solids>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="tubeUpstream_1" rmax="USTubemother_rmax" rmin="0" startphi="0" z="USTubemother_length"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="tubeUpstream_2" rmax="USTubemother_rmax + 1" rmin="0" startphi="0" z="USTubemothersubtract_length"/>
-    <!--tubeUpstream is not used anymore -->
-    <subtraction name ="tubeUpstream">
-      <first ref="tubeUpstream_1"/>
-      <second ref="tubeUpstream_2"/>
-      <positionref ref="USmothersubtract_center_1" />
-      <!-- <rotationref ref="scRot_1"/> -->
-    </subtraction>
-
     <box lunit="mm" name="boxUpstream_1" x="USBoxmother_width" y="USBoxmother_height" z="USBoxmother_length"/>
     <box lunit="mm" name="boxUpstream_2" x="USBoxmother_width + 1" y="USBoxmother_height + 1" z="USBoxmothersubtract_length"/>
     <tube aunit="deg" deltaphi="360" lunit="mm" name="tubeBeampipe_1_union" rmax="tubeBeampipeMother_1_union_rmax" rmin="0" startphi="0" z="tubeBeampipeMother_1_union_length"/>
@@ -316,63 +203,8 @@
       <second ref="boxUpstream_2"/>
       <positionref ref="USmothersubtract_center_2" />
     </subtraction>
-    <!-- no longer put subtracted and added beampipe placeholder volumes 
-    <union name="boxUpstream_5">
-      <first ref="boxUpstream_4"/>
-      <second ref="tubeBeampipe_1_union"/>
-      <positionref ref="beampipe_union_1_center" />
-    </union>
-    <union name="boxUpstream">
-      <first ref="boxUpstream_5"/>
-      <second ref="tubeBeampipe_2_union"/>
-      <positionref ref="beampipe_union_2_center" />
-    </union>
-    -->
-
-    <!--Following beampipe design is not in use -->
-    <!--Beam pipe 1 for a polycone center coordinate is at the front face-->
-    <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="beampipe_1"> 
-      <zplane rmin="beampipe_1_part1_rmin" rmax="beampipe_1_part1_rmax" z="0"/> 
-      <zplane rmin="beampipe_1_part1_rmin" rmax="beampipe_1_part1_rmax" z="beampipe_1_part1_length"/> 
-      <!--interface between two different radii -->
-      <zplane rmin="beampipe_1_part2_rmin" rmax="beampipe_1_part2_rmax" z="beampipe_1_part1_length + 0.1"/> 
-      <zplane rmin="beampipe_1_part2_rmin" rmax="beampipe_1_part2_rmax" z="beampipe_1_part2_length"/> 
-    </polycone>
-
-    <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="beampipe_2"> 
-      <zplane rmin="beampipe_2_part1_rmin" rmax="beampipe_2_part1_rmax" z="0"/> 
-      <zplane rmin="beampipe_2_part1_rmin" rmax="beampipe_2_part1_rmax" z="beampipe_2_part1_length"/> 
-    </polycone>
-      
-    <!--Beam pipe 3 is a part of the actual beam-pipe under vacuum that carries electron beam to the dump.-->
-    <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="beampipe_3"> 
-      <zplane rmin="beampipe_3_part1_rmin" rmax="beampipe_3_part1_rmax" z="0"/> 
-      <zplane rmin="beampipe_3_part1_rmin" rmax="beampipe_3_part1_rmax" z="beampipe_3_part1_length"/> 
-      <!--interface between two different radii -->
-      <zplane rmin="beampipe_3_part2_rmin" rmax="beampipe_3_part2_rmax" z="beampipe_3_part1_length + 0.1"/> 
-      <zplane rmin="beampipe_3_part2_rmin" rmax="beampipe_3_part2_rmax" z="beampipe_3_part1_length + 0.1 + beampipe_3_part2_length"/> 
-    </polycone>
-    <!--End of beampipe design that is not in use -->
-
-    <!-- inner photon collimating beampipe near collimator 1 -->
-   <!-- <cone aunit="deg" deltaphi="360" lunit="mm" name="solid_shield_US_beampipe_1" rmax1="shield_US_beampipe_US_rmax" rmax2="shield_US_beampipe_DS_rmax" rmin1="shield_US_beampipe_US_rmin" rmin2="shield_US_beampipe_DS_rmin" startphi="0" z="shield_US_beampipe_length"/>
-   -->
-
-    <!-- Detector after collimator 2 
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="COLL2_det_solid_1" rmax="COLL2_R4_D" rmin="COLL2_R1_D" startphi="0" z="0.01"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="COLL2_det_inner_solid_1" rmax="COLL2_R1_D" rmin="0" startphi="0" z="0.01"/>
-    <subtraction name ="COLL2_det_solid">
-      <first ref="COLL2_det_solid_1"/>
-      <second ref="solid_shield_US_beampipe_1"/>
-      <positionref ref="posCOLL2_det_sub" />
-    </subtraction>
-    <subtraction name ="COLL2_det_inner_solid">
-      <first ref="COLL2_det_inner_solid_1"/>
-      <second ref="solid_shield_US_beampipe_1"/>
-      <positionref ref="posCOLL2_det_sub" />
-    </subtraction>
-   -->
-
+   
+   
     <!-- New merged col-1 -->
     <!--R max will be same as before, I'm starting with bore radius of the exit bore for whole col-1 and then subtract appropriately -->
     <tube aunit="deg" deltaphi="360" lunit="mm" name="col1_0" rmax="COLL1_R4_U" rmin="0" startphi="0" z="COLL1_THICK"/>
@@ -579,38 +411,6 @@
     <cone aunit="deg" deltaphi="360" lunit="mm" name="coll2trap" rmax1="COLL2_R4_U+1000" rmax2="COLL2_R4_D+1000" rmin1="0.0" rmin2="0.0" startphi="0" z="1"/>
 
 
-    <box lunit="mm" name="US_COIL_BOX"  x="XS_W1+100." y="COIL_STRAIGHT_L+100." z="COIL_STRAIGHT_L+100."/>
-    <trd lunit="mm" name="US_STRAIGHT_LONG"  x1="XS_W1" x2="XS_W2" y1="COIL_STRAIGHT_L" y2="COIL_STRAIGHT_L" z="XS_H"/>
-    <trd lunit="mm" name="US_STRAIGHT_SHORT" x1="XS_W1" x2="XS_W2" y1="COIL_STRAIGHT_H" y2="COIL_STRAIGHT_H" z="XS_H"/>
-
-    <polycone aunit="deg" lunit="mm" name="US_CORNER_ARC_1" startphi="180+COIL_ANGLE" deltaphi="90">
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="-XS_W1/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="-XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="XS_W1/2"/>
-    </polycone>
-
-    <polycone aunit="deg" lunit="mm" name="US_CORNER_ARC_2" startphi="180-COIL_ANGLE" deltaphi="90">
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="-XS_W1/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="-XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="XS_W1/2"/>
-    </polycone>
-
-    <polycone aunit="deg" lunit="mm" name="US_CORNER_ARC_3" startphi="180+COIL_ANGLE" deltaphi="90">
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="-XS_W1/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="-XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="XS_W1/2"/>
-    </polycone>
-
-    <polycone aunit="deg" lunit="mm" name="US_CORNER_ARC_4" startphi="180-COIL_ANGLE" deltaphi="90">
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="-XS_W1/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="-XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R+XS_H" z="XS_W2/2"/>
-	<zplane rmin="COIL_ARC_R" rmax="COIL_ARC_R" z="XS_W1/2"/>
-    </polycone>
-
     <subtraction name ="uscoll2_union_0">
         <first ref="uscyl_2"/>
         <second ref="cons_1"/>
@@ -647,58 +447,7 @@
         <rotation name="uscoll_rot7" x="0" y="0" z="SEPTANT*(6+0.5)" unit="deg"/>
     </subtraction>
 
-    <intersection name ="uscoilunion_0">
-        <first ref="US_COIL_BOX"/>
-        <second ref="US_STRAIGHT_LONG"/>
-        <positionref ref="COIL_STRAIGHT_1"/>
-        <rotationref ref="RotateIN"/>
-    </intersection>
-    <union name ="uscoilunion_1">
-        <first ref="uscoilunion_0"/>
-        <second ref="US_CORNER_ARC_1"/>
-        <positionref ref="COIL_ARC_1"/>
-        <rotationref ref="RotateDSIN"/>
-    </union>
-    <union name ="uscoilunion_2">
-        <first ref="uscoilunion_1"/>
-        <second ref="US_STRAIGHT_SHORT"/>
-        <positionref ref="COIL_STRAIGHT_2"/>
-        <rotationref ref="RotateUS"/>
-    </union>
-
-    <union name ="uscoilunion_3">
-        <first ref="uscoilunion_2"/>
-        <second ref="US_CORNER_ARC_2"/>
-        <positionref ref="COIL_ARC_2"/>
-        <rotationref ref="RotateDSOUT"/>
-    </union>
-    <union name ="uscoilunion_4">
-        <first ref="uscoilunion_3"/>
-        <second ref="US_STRAIGHT_LONG"/>
-        <positionref ref="COIL_STRAIGHT_3"/>
-        <rotationref ref="RotateOUT"/>
-    </union>
-
-    <union name ="uscoilunion_5">
-        <first ref="uscoilunion_4"/>
-        <second ref="US_CORNER_ARC_3"/>
-        <positionref ref="COIL_ARC_3"/>
-        <rotationref ref="RotateUSOUT"/>
-    </union>
-    <union name ="uscoilunion_6">
-        <first ref="uscoilunion_5"/>
-        <second ref="US_STRAIGHT_SHORT"/>
-        <positionref ref="COIL_STRAIGHT_4"/>
-        <rotationref ref="RotateDS"/>
-    </union>
-
-    <union name ="uscoilunion_7">
-        <first ref="uscoilunion_6"/>
-        <second ref="US_CORNER_ARC_4"/>
-        <positionref ref="COIL_ARC_4"/>
-        <rotationref ref="RotateUSIN"/>
-    </union>
-
+   
     <!--
        Shielding collimators
       -->
@@ -724,45 +473,10 @@
       <positionref ref="CENTER" />
     </subtraction> 
 
-    <!-- Neutron Poly Shielding -->
-    <!-- PolyShield1 will be outside shielding blocks 2 and 3 -->
-    <box lunit="mm" name="boxUSPolyShield1_solid_1" x="USPolyShield1_width" y="USPolyShield1_height" z="USPolyShield1_length"/>
-    <box lunit="mm" name="boxUSPolyShield1_solid_2" x="USPolyShield1_width - 2*USPolyShield1_side_thickness + 1" y="USPolyShield1_height - USPolyShield1_top_thickness - USPolyShield1_bottom_thickness + 1" z="USPolyShield1_length - USPolyShield1_front_thickness - USPolyShield1_back_thickness + 1"/>
-    <tube aunit="deg" deltaphi="360" lunit="mm" name="USPolyShield1_beamTube_solid" rmax="boxPolyShield1_beam_bore" rmin="0" startphi="0" z="USPolyShield1_length+10"/>
-
-    <subtraction name ="boxUSPolyShield1_solid_3">
-      <first ref="boxUSPolyShield1_solid_1"/>
-      <second ref="boxUSPolyShield1_solid_2"/>
-      <positionref ref="boxUSPolyShield1_trans1" />
-    </subtraction> 
-
-    <subtraction name ="boxUSPolyShield1_solid">
-      <first ref="boxUSPolyShield1_solid_3"/>
-      <second ref="USPolyShield1_beamTube_solid"/>
-      <positionref ref="boxUSPolyShield1_trans2" />
-    </subtraction>
-
-    <cone aunit="deg" deltaphi="360" lunit="mm" name="solWasher1" rmax1="1900" rmax2="1900" rmin1="shield_US_beampipe_DS_rmax+1" rmin2="shield_US_beampipe_DS_rmax+1" startphi="0" z="10"/>
-    <cone aunit="deg" deltaphi="360" lunit="mm" name="solWasher2" rmax1="1900" rmax2="1900" rmin1="0" rmin2="0" startphi="0" z="10"/>
-
+      
     <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="solid_USwindow">
       <zplane rmin="0" rmax="500" z="3690-UOFFSET"/>
       <zplane rmin="0" rmax="500" z="3690.5-UOFFSET"/>
-    </polycone>
-
-    <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="solid_USbeampipe_col12">
-    <zplane rmin="26.703" rmax="29.703" z="5675.0-UOFFSET"/>
-    <zplane rmin="26.703" rmax="29.703" z="5700.0-UOFFSET"/>
-    <zplane rmin="26.703" rmax="35.0" z="5700.0-UOFFSET"/>
-    <zplane rmin="26.703" rmax="35.0" z="5703.0-UOFFSET"/>
-    <zplane rmin="32.0" rmax="35.0" z="5703.0-UOFFSET"/>
-    <zplane rmin="32.0" rmax="35.0" z="5750.0-UOFFSET"/>
-    </polycone>
-
-
-    <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="solid_USbeampipe">
-    <zplane rmin="31" rmax="32" z="7845.001-UOFFSET"/>
-    <zplane rmin="31" rmax="32" z="8025.0-UOFFSET"/>
     </polycone>
 
     <polycone aunit="deg" startphi="0" deltaphi="360" lunit="mm" name="solUSTracker">
