@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<define>
+  <constant name="targetCenterZ" value="0"/>
+  <constant name="tubeTarget_rmax" value="40"/>
+  <constant name="tubeTarget_length" value="1250"/>
+  <constant name="AlWindowTarget_length" value="0.127"/>
+</define>
+
+  <materials>
+    <material Z="1" name="VacuumTarg" state="gas">
+      <T unit="K" value="2.73"/>
+      <P unit="pascal" value="3e-18"/>
+      <D unit="g/cm3" value="1e-25"/>
+      <atom unit="g/mole" value="1.01"/>
+    </material>
+    <material Z="1" name="LiquidHydrogen" state="liquid">
+      <T unit="K" value="20.27"/>
+      <D unit="g/cm3" value="0.0708"/>
+      <atom unit="g/mole" value="1.00794"/>
+    </material>
+    <material Z="13" name="Aluminum" state="solid">
+      <T unit="K" value="20.27"/>
+      <D unit="g/cm3" value="2.7"/>
+      <atom unit="g/mole" value="26.98"/>
+    </material>
+  </materials>
+
+<solids>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="tubeTargetMother" rmax="1000" rmin="0" startphi="0" z="2400"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="tubeTarget" rmax="tubeTarget_rmax" rmin="0" startphi="0" z="tubeTarget_length"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="optics_foil" rmax="150.0" rmin="0" startphi="0" z="0.25"/>
+</solids>
+
+<structure>
+
+    <volume name="multiFoilTarg">
+      <materialref ref="G4_C"/>
+      <solidref ref="optics_foil"/>
+      <auxiliary auxtype="TargetSamplingVolume" auxvalue=""/>
+    </volume>
+ 
+    <volume name="logicTarget">
+      <materialref ref="VacuumTarg"/>
+      <solidref ref="tubeTargetMother"/>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_0" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*0"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_1" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*1"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_2" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*2"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_3" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*3"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_4" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*4"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_5" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*5"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_6" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*6"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_7" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*7"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_8" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*8"/>
+      </physvol>
+
+      <physvol>
+	<volumeref ref="multiFoilTarg"/>
+	<position name="multi_foil_pos_9" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*9"/>
+      </physvol>
+
+      <physvol>
+        <volumeref ref="multiFoilTarg"/>
+        <position name="multi_foil_pos_10" unit="mm" x="0" y="0" z="targetCenterZ-5*25+25*10"/>
+      </physvol>
+
+      <auxiliary auxtype="TargetSystem" auxvalue=""/>
+    </volume>
+
+</structure>
+
+<setup name="Target" version="1.0">
+	<world ref="logicTarget"/>
+</setup>
+
+</gdml>

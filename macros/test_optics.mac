@@ -1,0 +1,58 @@
+# Enable step limiter physics - If you want fine-grain part.tj[xyz] data
+#/remoll/physlist/steplimiter/enable
+
+# Geometry must be set before initializing
+/remoll/setgeofile geometry/mollerMother_tracking.gdml
+# Parallel world geometry holds non-interacting volumes, which can function as ideal sensitive detectors
+/remoll/parallel/setfile geometry/mollerParallel.gdml
+
+# This must be explicitly called
+/run/initialize
+
+# Trajectory step size limitation (smaller step limit means better resolution in part.tj[xyz] data)
+#/remoll/geometry/userlimits/usermaxallowedstep logicDownstream 10*cm
+#/remoll/geometry/userlimits/usermaxallowedstep logicUpstream 10*cm
+
+# If you want to have part.tj[xyz] tracking filled then you need to turn on trajectories
+# The code determining what gets tracked is in src/remollTrackingAction.cc -> 0 == Primary Electrons Only
+#/remoll/tracking/set 0
+#/tracking/storeTrajectory 1
+#/tracking/verbose 2
+
+#/run/verbose 2
+
+# Add Magnetic Fields - There are various versions, so double check this
+/remoll/addfield map_directory/blockyHybrid_rm_3.0.txt
+/remoll/addfield map_directory/blockyUpstream_rm_1.1.txt
+
+#/remoll/scalefield map_directory/blockyHybrid_rm_3.0.txt 1.0
+#/remoll/magcurrent map_directory/blockyHybrid_rm_3.0.txt 1000.0 A
+
+# Raster and initial angle stuff
+/remoll/oldras false
+/remoll/rasx 5 mm
+/remoll/rasy 5 mm
+/remoll/beamene 11 GeV
+/remoll/evgen/set moller
+#/remoll/evgen/set epelastic
+#/remoll/evgen/set epinelastic
+#/remoll/evgen/set pion
+#/remoll/evgen/set carbon
+#/remoll/evgen/set aluminum
+/remoll/beamcurr 65 microampere
+
+/remoll/targname multiFoilTarg
+
+# Make interactions with W, Cu, and Pb
+# realistic rather than pure absorbers
+/control/execute macros/kryptonite.mac
+/process/list
+
+# Specify random number seed - DO NOT USE THE SAME SEED OVER AND OVER AGAIN
+#/remoll/seed 123456
+/remoll/filename remoll_optics_test_10000.root
+/run/beamOn 10000
+
+
+
+
