@@ -18,7 +18,10 @@
 
 /remoll/printgeometry true
 
+/remoll/SD/enable 1000
+
 /control/execute macros/load_magnetic_fieldmaps.mac
+/control/execute macros/sieve/sieve_in.mac
 
 # Raster and initial angle stuff
 /remoll/oldras true
@@ -76,10 +79,10 @@
 /process/list
 
 # Specify random number seed
-/remoll/seed 123456
+#/remoll/seed 123456
 
 /remoll/filename remollout.root
 
 #/tracking/verbose 2
 /remoll/printtargetinfo
-/run/beamOn 100
+/run/beamOn 10000

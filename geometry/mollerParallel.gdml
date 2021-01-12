@@ -62,7 +62,7 @@
     <auxiliary auxtype="SensDet" auxvalue="planeDet"/>
     <auxiliary auxtype="DetNo" auxvalue="28"/>
   </volume>
-
+<!--
   <volume name="pionDetectorVirtualPlane_log">
     <materialref ref="G4_Galactic"/>
     <solidref ref="VirtualPlane_solid"/>
@@ -125,7 +125,7 @@
     <auxiliary auxtype="SensDet" auxvalue="planeDet"/>
     <auxiliary auxtype="DetNo" auxvalue="46"/>
   </volume>
-
+-->
   <volume name="sieveVirtualPlane_log">
     <materialref ref="G4_Galactic"/>
     <solidref ref="VirtualPlane_solid"/>
@@ -162,12 +162,14 @@
     </physvol>
 
     <!-- Pion detector plane -->
+<!--
     <physvol name="pionDetectorVirtualPlane_phys">
       <volumeref ref="pionDetectorVirtualPlane_log"/>
       <positionref ref="pionDetectorVirtualPlane_pos"/>
     </physvol>
-
+-->
     <!-- Beamline detector planes -->
+<!--
     <physvol name="collar1VirtualPlane_phys">
       <volumeref ref="collar1VirtualPlane_log"/>
       <positionref ref="collar1VirtualPlane_pos"/>
@@ -207,7 +209,7 @@
       <volumeref ref="n2atmoVirtualPlane_log"/>
       <positionref ref="n2atmoVirtualPlane_pos"/>
     </physvol>
-
+-->
     <physvol name="sieveVirtualPlane_phys">
       <volumeref ref="sieveVirtualPlane_log"/>
       <positionref ref="sieveVirtualPlane_pos"/>
