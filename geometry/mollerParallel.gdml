@@ -53,6 +53,7 @@
     <materialref ref="G4_Galactic"/>
     <solidref ref="trackingVirtualPlane_solid"/>
     <auxiliary auxtype="SensDet" auxvalue="planeDet"/>
+    <auxiliary auxtype="DetType" auxvalue="boundaryhits"/>
     <auxiliary auxtype="DetNo" auxvalue="30"/>
   </volume>
 
