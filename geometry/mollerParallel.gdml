@@ -61,6 +61,7 @@
     <materialref ref="G4_Galactic"/>
     <solidref ref="VirtualPlane_solid"/>
     <auxiliary auxtype="SensDet" auxvalue="planeDet"/>
+    <auxiliary auxtype="DetType" auxvalue="boundaryhits"/>
     <auxiliary auxtype="DetNo" auxvalue="28"/>
   </volume>
 <!--
@@ -131,6 +132,7 @@
     <materialref ref="G4_Galactic"/>
     <solidref ref="VirtualPlane_solid"/>
     <auxiliary auxtype="SensDet" auxvalue="planeDet"/>
+    <auxiliary auxtype="DetType" auxvalue="boundaryhits"/>
     <auxiliary auxtype="DetNo" auxvalue="60"/>
   </volume>
 
