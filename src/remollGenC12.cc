@@ -216,10 +216,6 @@ void remollGenC12::GenQuasiElastic(G4double beamE,G4double theta,
 void remollGenC12::GenElastic(G4double beamE,G4double theta,
 			     G4double &Q2,G4double &W2,G4double &effectiveXsection,
 			     G4double &fWeight,G4double &eOut,G4double &asym) {
-  // Minumum Scattering angle allowed
-  G4double Theta_Min = 0.5*pi/180;
-  if (theta<Theta_Min) theta = Theta_Min;
-
   // Physical Constants      
   G4double M_A = 931.494 * MeV;                 // a.m.u. in MeV
   G4double Z = 6.0;                             // # of protons
