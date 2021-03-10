@@ -83,9 +83,11 @@ void remollGenC12::SamplePhysics(remollVertex *vert, remollEvent *evt) {
       break;
     case 1:
       GenQuasiElastic(beamE,th,Q2,W2,effectiveXsection,fWeight,eOut,asym);
+      phaseSpaceFactor=phaseSpaceFactor*(beamE/GeV - electron_mass_c2/GeV);
       break;
     case 2:
       GenInelastic(beamE,th,Q2,W2,effectiveXsection,fWeight,eOut,asym);
+      phaseSpaceFactor=phaseSpaceFactor*(beamE/GeV - electron_mass_c2/GeV);
       break;
     default:
       G4cerr<<"Unknown C12 event type"<<G4endl;
@@ -132,7 +134,7 @@ void remollGenC12::GenInelastic(G4double beamE,G4double theta,
     }while(W2/GeV/GeV<0 || W2/GeV/GeV>9 || Q2/GeV/GeV<0.0 || Q2/GeV/GeV>10); //this is because F1F2IN09 won't work for W>3 and Q2>10
     
     // Mott scattering
-    G4double MOTT = pow((hbarc/GeV/m*fine_structure_const/(2.*beamE/GeV)*CTH/STH/STH),2)/ubarn; // units: ubarn
+    G4double MOTT = pow((hbarc/GeV/m*fine_structure_const/(2.*beamE/GeV)*CTH/STH/STH),2)/microbarn; // units: ubarn
 
     G4int A=12;
     G4int Z=6;
@@ -187,17 +189,16 @@ void remollGenC12::GenQuasiElastic(G4double beamE,G4double theta,
   W2 = proton_mass_c2*proton_mass_c2 + 2.0*proton_mass_c2*Nu - Q2;
   
   // Mott scattering
-  G4double MOTT = pow((0.00072/(beamE/GeV)*CTH/STH/STH),2);
-  MOTT = MOTT*1.0E4; // Units: ub/sr/GeV
-  
-  G4int A=27;
-  G4int Z=13;
+  G4double MOTT = pow((hbarc/GeV/m*fine_structure_const/(2.*beamE/GeV)*CTH/STH/STH),2)/microbarn; // units: ubarn
+
+  G4int A=12;
+  G4int Z=6;
   F1F2QE09(Z, A, Q2/GeV/GeV, W2/GeV/GeV, F1, F2);
   
   w1 = F1/(proton_mass_c2/GeV);
   w2 = F2/(Nu/GeV);
   
-  xsect = MOTT*(w2 + 2.0*T2THE*w1)*(beamE/GeV - electron_mass_c2/GeV);
+  xsect = MOTT*(w2 + 2.0*T2THE*w1);
   
   // In some cases a negative F2 is returned giving a negative cross section
   if (xsect <= 0) xsect = 0.0;
@@ -209,47 +210,56 @@ void remollGenC12::GenQuasiElastic(G4double beamE,G4double theta,
   asym= -GF/(4.*pi*fine_structure_const*sqrt(2.)) * Q2 * (QWp);
 }
 
+// copy from QweakSimEPEvent::Elastic_Cross_Section_Carbon
+// Calculate the Elastic Carbon cross-section using PWBA Form Factors (FF) 
+// deterimined using the method described in HANS F. EHRBNBERG et. all Phys. Rev. 113,2 (1959)
 void remollGenC12::GenElastic(G4double beamE,G4double theta,
 			     G4double &Q2,G4double &W2,G4double &effectiveXsection,
 			     G4double &fWeight,G4double &eOut,G4double &asym) {
-  ///~~~~ X-section calculation
-  const G4double Z = 13.0;
-  const G4double A = 27.0;
-  const G4double M = proton_mass_c2*A;
-  const G4double CTH = cos(theta/2.0);
-  const G4double STH = sin(theta/2.0);
-  const G4double ETA = 1.0+2.0*beamE*STH*STH/M;
-  
-  eOut = beamE/ETA;   
-  Q2 = 4*beamE*eOut*STH*STH;//[MeV^2]
-  W2 = M*M;//[MeV^2]
-  
-  //harmonic oscillator well parameter a0 ~1.76 fm 
-  const G4double a = 2.98; //[fm]
-  const G4double ap = sqrt(0.427);//[fm] 
-  const G4double a0 = sqrt((a*a-1.5*ap*ap)/(3.5-10/Z-1.5/A)); 
-  const G4double q2 = Q2/GeV/GeV*(1.0/0.197)*(1.0/0.197);//convert MeV^2 into fm^(-2)
-  const G4double x = (1.0/4.0)*q2*a0*a0;
-  
-  const G4double F0 = (1.0/Z)*( Z-4.0/3.0*(Z-5.0)*x+4.0/15.0*(Z-8.0)*x*x)*exp(-x);
-  const G4double F2 = (1.0-2.0/7.0*x)*exp(-x);
-  const G4double Q = 14.6;  //[fm^(-2)]
-  G4double Fe = sqrt( F0*F0+(7.0/450.0)*q2*q2*(Q*Q/Z/Z)*F2*F2 );
-  Fe=Fe*exp(-0.25*q2*ap*ap); //correction for finite proton size
-  Fe=Fe*exp(x/A); //correction for center-of-well motion
-  const G4double F_2 = Fe*Fe;
+  // Minumum Scattering angle allowed
+  G4double Theta_Min = 0.5*pi/180;
+  if (theta<Theta_Min) theta = Theta_Min;
 
-  G4double SigmaMott = pow(((0.72/beamE)*CTH/(STH*STH)),2)/(1+2*beamE/M*STH*STH)*10000 ;
-  SigmaMott *= (Z*Z);
-  effectiveXsection = SigmaMott*F_2;
+  // Physical Constants      
+  G4double M_A = 931.494 * MeV;                 // a.m.u. in MeV
+  G4double Z = 6.0;                             // # of protons
+  G4double A = 12.0;                            // Atomic Weight
+  G4double M = M_A*A;                           // Nuclear Mass
+  G4double a = 1.65;                            // well parameter [fm]
+  G4double alpha_FS = 1.0/137.035999074;        // Fine Structure Constant
+  G4double m_e = 0.511 * MeV;                   // electron mass in MeV
 
-  G4double functionOfTheta = log (STH*STH) * log (CTH*CTH);
-  G4double deltaSchwinger = (-2.0*fine_structure_const/pi)*
-    ((log(beamE/15.0) - 13.0/12.0) * (log(Q2/(electron_mass_c2*electron_mass_c2)) - 1.0) + 17.0/36.0 + functionOfTheta/2.0);
-  effectiveXsection *=(1. + deltaSchwinger);
-  
-  fWeight = effectiveXsection*sin(theta);  
-  
-  ///~~~ Aymmetry calculation
+  // Kinematic variables
+  G4double CTH = cos(theta/2.0);
+  G4double STH = sin(theta/2.0);
+  G4double ETA = 1.0+2.0*beamE*STH*STH/M;
+  eOut = beamE/ETA;
+  Q2 = 4*beamE*eOut*STH*STH;                    // [MeV^2]
+  W2 = M*M;
+  G4double myhbarc = hbarc / MeV / fermi;       // 197.3269631 MeV fm
+  G4double q2 = Q2/(myhbarc*myhbarc);           //convert MeV^2 into fm^(-2)
+
+  // Dynamics
+  // Mott Cross Section
+  G4double SigmaMott = pow(alpha_FS*myhbarc*Z/(2.0*beamE),2);    // [fm^2]
+  SigmaMott *= (CTH*CTH)/pow(STH,4)*(eOut/beamE)*10000;         // [ub] 10000 is the conversion factor          
+  G4double FF = (1.0 - (q2*a*a)/9.0)*exp(-(q2*a*a)/4.0);        // Form Factor
+  G4double sigma = SigmaMott*FF*FF;
+  // Schwinger correction from Mo and Tsai Rev.Mod.Phys. 41 205 (1969) eq. (II.2)
+  G4double delta_Schwinger = 0.0;
+  G4double SchwingerDeltaE = 15*MeV;  // this has to be checked --- hanjie
+  if(SchwingerDeltaE!=0) {
+    G4double FunctionofTheta = log (STH*STH) * log (CTH*CTH);
+    delta_Schwinger = (-2.0*alpha_FS/pi) * ((log(beamE/SchwingerDeltaE) - 13.0/12.0)
+                             * (log(Q2/(m_e*m_e)) - 1.0) + 17.0/36.0 + FunctionofTheta/2.0);
+  }
+  sigma = sigma*(1.0 + delta_Schwinger);
+  effectiveXsection = sigma; 
+  fWeight = sigma*sin(theta);
   asym= -GF/(4.*pi*fine_structure_const*sqrt(2.)) * Q2 * (QWp + QWn*(A-Z)/Z);
+
+
+  return;
 }
+
+

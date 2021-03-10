@@ -1,14 +1,14 @@
-#ifndef __REMOLLGENAL_HH
-#define __REMOLLGENAL_HH
+#ifndef __REMOLLGENC12_HH
+#define __REMOLLGENC12_HH
 
 #include "remollVEventGen.hh"
 
 #include <map>
 
-class remollGenAl : public remollVEventGen {
+class remollGenC12 : public remollVEventGen {
 public:
-  remollGenAl(G4int physicsType);
-  virtual ~remollGenAl();
+  remollGenC12(G4int physicsType);
+  virtual ~remollGenC12();
   
 private:
   G4int type;
@@ -34,4 +34,4 @@ private:
 
 };
 
-#endif//__REMOLLGENAL_HH 
+#endif//__REMOLLGENC12_HH 

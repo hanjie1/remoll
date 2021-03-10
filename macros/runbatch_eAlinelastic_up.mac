@@ -1,11 +1,15 @@
 # This must be called before initialize
-/remoll/setgeofile geometry/mollerMother.gdml
+/remoll/geometry/setfile geometry/mollerMother.gdml
+/remoll/parallel/setfile geometry/mollerParallel.gdml
+
+/remoll/physlist/parallel/enable 
 
 # This must be explicitly called
 /run/initialize
 
 # Load magnetic fieldmaps
 /control/execute macros/load_magnetic_fieldmaps.mac
+/control/execute macros/sieve/sieve_out.mac
 
 # Raster and initial angle stuff
 /remoll/oldras true
@@ -14,7 +18,7 @@
 
 /remoll/beamene 11 GeV
 
-/remoll/gen inelasticAl
+/remoll/evgen/set inelasticAl
 #/remoll/gen quasielasticAl
 #/remoll/gen elasticAl
 
@@ -24,8 +28,10 @@
 
 # Make interactions with W, Cu, and Pb
 # realistic rather than pure absorbers
-/remoll/kryptonite true
+/control/execute macros/kryptonite.mac 
 
-/remoll/filename remoll_eAlinelastic_up.root
+/process/list
+/remoll/filename remoll_eAlinelastic_up_old.root
 
+/remoll/printtargetinfo
 /run/beamOn 10000000
